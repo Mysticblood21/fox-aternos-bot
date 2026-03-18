@@ -14,18 +14,34 @@ async function startAternosServer(message) {
     statusMessage = await message.reply('⏳ Connecting to Aternos and starting the server...');
 
     browser = await puppeteer.launch({
-      headless: 'new',
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-gpu',
-        '--single-process',
-        '--no-zygote'
-      ],
-      defaultViewport: null
-    });
+  headless: true,
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--disable-gpu',
+    '--single-process',
+    '--no-zygote'
+  ]
+});
+```
+
+`executablePath` **bilkul nahi** — Docker image mein Chrome already hota hai! ✅
+
+---
+
+## Railway Variable Delete Karo:
+```
+PUPPETEER_EXECUTABLE_PATH  ← delete karo
+PUPPETEER_SKIP_CHROMIUM_DOWNLOAD ← delete karo  
+NIXPACKS_APT_PKGS ← delete karo
+```
+
+Sirf yeh rakho:
+```
+DISCORD_TOKEN
+ATERNOS_USER
+ATERNOS_PASS
 
     const page = await browser.newPage();
     await page.setRequestInterception(true);
