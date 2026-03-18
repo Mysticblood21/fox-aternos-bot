@@ -24,25 +24,7 @@ async function startAternosServer(message) {
     '--no-zygote'
   ]
 });
-```
-
-`executablePath` **bilkul nahi** — Docker image mein Chrome already hota hai! ✅
-
----
-
-## Railway Variable Delete Karo:
-```
-PUPPETEER_EXECUTABLE_PATH  ← delete karo
-PUPPETEER_SKIP_CHROMIUM_DOWNLOAD ← delete karo  
-NIXPACKS_APT_PKGS ← delete karo
-```
-
-Sirf yeh rakho:
-```
-DISCORD_TOKEN
-ATERNOS_USER
-ATERNOS_PASS
-
+    
     const page = await browser.newPage();
     await page.setRequestInterception(true);
     page.on('request', req => {
