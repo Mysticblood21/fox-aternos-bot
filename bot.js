@@ -1,6 +1,6 @@
 // Updated bot.js for Aternos Discord bot with vignette handling and improved server status polling
 const { Client, GatewayIntentBits } = require('discord.js');
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 require('dotenv').config();
 
 function delay(ms) {
@@ -15,7 +15,6 @@ async function startAternosServer(message) {
 
     browser = await puppeteer.launch({
   headless: true,
-  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
   args: [
     '--no-sandbox',
     '--disable-setuid-sandbox',
