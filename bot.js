@@ -38,20 +38,25 @@ async function startAternosServer(message) {
     await page.goto('https://aternos.org/go/', { waitUntil: 'domcontentloaded', timeout: 60000 });
 
     // Handle login or redirect
-    const alreadyLoggedIn = await page.$('a[href="/servers/"]');
-    if (alreadyLoggedIn) {
-      await alreadyLoggedIn.click();
-    } else {
-      await page.waitForSelector('input#user', { timeout: 10000 });
-      await page.type('input#user', process.env.ATERNOS_USER, { delay: 50 });
-      await page.type('input#password', process.env.ATERNOS_PASS, { delay: 50 });
-      await page.click('button[type="submit"]');
-      try {
-        await page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 30000 });
-      } catch {
-        console.log('⚠️ Login navigation timeout, continuing.');
-      }
-    }
+    // Go to login page directly
+await page.goto('https://aternos.org/login/', { waitUntil: 'domcontentloaded', timeout: 60000 });
+
+// Check if already logged in
+const alreadyLoggedIn = await page.$('a[href="/servers/"]');
+if (alreadyLoggedIn) {
+  console.log('✅ Already logged in');
+} else {
+  // Wait for login form
+  await page.waitForSelector('#user', { timeout: 15000 });
+  await page.type('#user', process.env.ATERNOS_USER, { delay: 100 });
+  await page.type('#password', process.env.ATERNOS_PASS, { delay: 100 });
+  await delay(500);
+  await page.click('#login-button');
+  await page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 30000 }).catch(() => {
+    console.log('⚠️ Navigation timeout, continuing...');
+  });
+  console.log('✅ Logged in successfully');
+}
 
     await page.goto('https://aternos.org/servers/', { waitUntil: 'domcontentloaded', timeout: 60000 });
 
